@@ -1,31 +1,13 @@
-const profileDataArgs = process.argv.slice(2, process.argv.length);
+const fs = require("fs");
+const generatePage = require("./src/page-template.js");
 
-// This is the same...
+const profileDataArgs = process.argv.slice(2);
+
 const [name, github] = profileDataArgs;
-// As this...
-// const name = profileDataArgs[0];
-// const github = profileDataArgs[1];
 
-const generatePage = (userName, githubName) => {
-  return `
-  Name: ${userName} 
-  Github: ${githubName}
-  `;
-};
-console.log(generatePage(name, github));
+//The first argument is the file name that will be created, or the output file. The second argument is the data that's being written: the HTML string template. The third argument is the callback function that will handle any errors as well as the success message.
+fs.writeFile("./index.html", generatePage(name, github), (err) => {
+  if (err) throw new Error(err);
 
-// console.log(profileDataArgs);
-
-// const printProfileData = (profileDataArr) => {
-//   // This...
-//   for (let i = 0; i < profileDataArr.length; i += 1) {
-//     console.log(profileDataArr[i]);
-//   }
-
-//   console.log("================");
-
-//   //Is the same as this...
-//   profileDataArr.forEach((profileItem) => console.log(profileItem));
-// };
-
-// printProfileData(profileDataArgs);
+  console.log("Portfolio complete! Check out index.html to see the output!");
+});
